@@ -1,0 +1,46 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+# C extensions
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+bin/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Django-specific files
+*.log
+*.pot
+local_settings.py
+db.sqlite3
+/media
+/static
+
+# Editors and OS files
+.DS_Store           # macOS files
+*.sublime-project   # Sublime Text project files
+*.sublime-workspace # Sublime Text workspace files
+.idea/              # PyCharm/IntelliJ project files
+.vscode/            # VS Code project files (optional, depending on team preference)
+
+# Coverage files
+.coverage
+.coverage.*
+htmlcov/
