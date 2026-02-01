@@ -1,8 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
+from .models import ShortenedURL
+from .forms import URLShortenForm
+import string
+import random
 
 # Create your views here.
 # @login_required(login_url='login')
@@ -76,9 +80,48 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def shorten_url(request):
+    form = URLShortenForm() # Initialize form for GET requests
+    
     if request.method == 'POST':
-        url = request.POST.get('url')
-        # Here you would add the logic to shorten the URL
-        messages.success(request, f"URL shortened: {url}")
-        return redirect('home')
-    return render(request, 'shorten_url.html')
+        form = URLShortenForm(request.POST) 
+        if form.is_valid():
+            url = form.cleaned_data['original_url']
+            
+            char_set = string.ascii_letters + string.digits
+            while True:
+                random_code = ''.join(random.choices(char_set, k=6))
+                if not ShortenedURL.objects.filter(short_url=random_code).exists():
+                    break
+            
+            obj = form.save(commit=False)
+            obj.user = request.user
+            obj.short_url = random_code 
+            obj.save()
+            
+            messages.success(request," URL shortened successfully!")
+            return redirect('shorten_url') 
+    user_urls = ShortenedURL.objects.filter(user=request.user).order_by('-created_at')
+    context = {
+        'form': form,
+        'obj': user_urls
+    }
+    return render(request, 'shorten_url.html', context)
+
+def redirect_url(request, short_url):
+    try:
+        url_obj= ShortenedURL.objects.get(short_url=short_url)
+        url_obj.counter+= 1
+        url_obj.save()
+        return redirect(url_obj.original_url)
+    except ShortenedURL.DoesNotExist:
+        return render(request, 'pagenotfound.html', status=404)
+
+@login_required(login_url='login')
+def delete_url(request, u_id):
+    url =get_object_or_404(ShortenedURL, id=u_id, user=request.user)
+    if request.method == "POST":
+        url.delete()
+        messages.success(request, " URL deleted successfully ")
+        return redirect('shorten_url')
+    
+    return render(request, 'deleteurl.html', {'url': url})

@@ -6,5 +6,8 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.register_view, name='register'),
     path('shorten_url/', views.shorten_url, name='shorten_url'),
+    path('<str:short_url>/', views.redirect_url, name='redirect_url'),
+    path('delete_url/<int:u_id>/', views.delete_url, name='delete_url'),
+
    
 ]
