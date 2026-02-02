@@ -12,5 +12,7 @@ urlpatterns = [
     path('404/', views.page_not_found, name='page_not_found'),
     path('edit_url/<int:u_id>/', views.edit_url, name='edit_url'),
 
+    path('qr_code/<int:u_id>/', views.qr_code_view, name='qr_code'),
+
    
 ]

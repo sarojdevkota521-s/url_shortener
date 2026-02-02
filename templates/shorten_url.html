@@ -4,7 +4,7 @@
     {% block content %}
 
 <h2>Shorten URL Page</h2>
-<form method="post" action="{% url 'shorten_url' %}">
+<form method="post" action="{% url 'shorten_url' %}" style="margin-bottom: 20px;">
     {% csrf_token %}    
     {{ form.as_p }}
     <button type="submit">Shorten URL</button>
@@ -23,8 +23,11 @@
             <hr>
             <p>Click Count: {{ item.counter }} </p>
             <p>Created at: {{ item.created_at|timesince }} ago </p>
-            <button><a href="{% url 'delete_url' item.id %}">Delete URL</a></button>
+            <button><a href="{% url 'delete_url' item.id %}">Delete</a></button>
             <button><a href="{% url 'edit_url' item.id %}">Customize Short URL</a></button>
+            <a href="{% url 'qr_code' item.id %}"><h4>QR Code</h4> </a>
+            
+
     </div>
     {% endfor %}
 

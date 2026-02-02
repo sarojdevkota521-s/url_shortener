@@ -8,6 +8,8 @@ from .forms import URLShortenForm, EditShortURLForm
 import string
 import random
 
+
+
 # Create your views here.
 # @login_required(login_url='login')
 def home(request):
@@ -144,4 +146,13 @@ def edit_url(request, u_id):
             return redirect('shorten_url')
 
     return render(request, 'editshorturl.html', {'form': form, 'url': url})
+
+def qr_code_view(request, u_id):
+    url = get_object_or_404(ShortenedURL, id=u_id, user=request.user)
+    qr_code_data = url.qr_code()
+    context = {
+        'qr_code_data': qr_code_data,
+        'short_url': url.short_url
+    }
+    return render(request, 'qr_code.html', context)
 

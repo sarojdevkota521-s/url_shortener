@@ -22,6 +22,9 @@
     {% if message.tags == 'success' %}
         <div style="color: green; background-color: lightgreen; padding: 8px; border-radius: 5px;">{{ message }}</div>
     {% endif %}
+    {% if message.tags == 'error' %}
+        <div style="color: red; background-color: lightcoral; padding: 8px; border-radius: 5px;">{{ message }}</div>
+    {% endif %}
     {% endfor %}
 {% endif %}
 
