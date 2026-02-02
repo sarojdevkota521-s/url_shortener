@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import ShortenedURL
-from .forms import URLShortenForm
+from .forms import URLShortenForm, EditShortURLForm
 import string
 import random
 
@@ -115,6 +115,11 @@ def redirect_url(request, short_url):
         return redirect(url_obj.original_url)
     except ShortenedURL.DoesNotExist:
         return render(request, 'pagenotfound.html', status=404)
+    
+
+def page_not_found(request, exception):
+    return render(request, 'pagenotfound.html', status=404)
+
 
 @login_required(login_url='login')
 def delete_url(request, u_id):
@@ -125,3 +130,18 @@ def delete_url(request, u_id):
         return redirect('shorten_url')
     
     return render(request, 'deleteurl.html', {'url': url})
+
+@login_required(login_url='login')
+def edit_url(request, u_id):
+    url = get_object_or_404(ShortenedURL, id=u_id, user=request.user)
+    form = EditShortURLForm(instance=url)
+    
+    if request.method == "POST":
+        form = EditShortURLForm(request.POST, instance=url)
+        if form.is_valid():
+            form.save()
+            messages.success(request, " Short URL updated successfully ")
+            return redirect('shorten_url')
+
+    return render(request, 'editshorturl.html', {'form': form, 'url': url})
+

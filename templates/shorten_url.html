@@ -13,7 +13,7 @@
 <hr>
 <center>
           {% for item in obj %}
-          <div style="border:2px solid black; width:50%; padding:10px; margin:10px;">
+          <div style="border:2px solid black; width:50%; padding:10px; border-radius: 10px; margin:10px;">
     
         <h3> your original URL: {{ item.original_url }}</h3>
        <h3>Your Shortened URLs:<a href="http://127.0.0.1:8000/{{ item.short_url }}" target="_blank">
@@ -24,6 +24,7 @@
             <p>Click Count: {{ item.counter }} </p>
             <p>Created at: {{ item.created_at|timesince }} ago </p>
             <button><a href="{% url 'delete_url' item.id %}">Delete URL</a></button>
+            <button><a href="{% url 'edit_url' item.id %}">Customize Short URL</a></button>
     </div>
     {% endfor %}
 
