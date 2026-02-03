@@ -15,6 +15,36 @@
 <h3> apply the database by " python manage.py migrate "</h3>
 <h3> create superuser by " python manage.py createsuperuser" </h3>
 
+<h1> Application guidance for run</h1>
+<p> after successfully setup the application, again do "python manage.py runserver" in command for run the server</p>
+<li> user need to register for shortener url by clicking register </li>
+<li>do register and login </li>
+<li>now user can enter the urs_shortener page for shortener url</li>
+<li>now user can short url generate qr_code, customize url, set available expire time and delete the the url</li>
+<li> user can see their activity in the urs_shortener page or list of UrL from nav which only appear after user is login</li>
+<li> in list of url page user can search the short url from search bar</li>
+<li> user can see basic analytics such as click count, url created and customize time and url clicked time</li>
+<h1>some images of the project </h1>
+<p> home page without user login</p>
+<img src="images/Screenshot (271).png" alt="description of image">
+<p> home page with user login</p>
+<img src="images/Screenshot (272).png" alt="description of image">
+<p> Url Shortener page with form and activity of user</p>
+<img src="images/Screenshot (273).png" alt="description of image">
+<p> Urllist page with search url and activity of user</p>
+<img src="images/Screenshot (274).png" alt="description of image">
+<p> edit page</p>
+<img src="images/Screenshot (275).png" alt="description of image">
+<p> qr_code page</p>
+<img src="images/Screenshot (276).png" alt="description of image">
+ 
+ <p> expired url</p>
+<img src="images/Screenshot (277).png" alt="description of image">
+ 
+
+
+
+
 
 
 
