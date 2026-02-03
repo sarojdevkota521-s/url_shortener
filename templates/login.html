@@ -11,9 +11,9 @@
             
             <label class="form-label" for="password">Password:</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required><br>
-            <label class="form-label" for="confirm_password">Confirm Password:</label> 
+            {% comment %} <label class="form-label" for="confirm_password">Confirm Password:</label> 
             <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm password" required><br><br>
-            
+             {% endcomment %}
             <input class="btn-m" type="submit" value="Login   ">
             <a href="{% url 'register' %}" style=" margin-left: 30px;">Don't have an account? Register</a>
         </form>
