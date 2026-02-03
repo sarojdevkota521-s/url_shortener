@@ -37,8 +37,21 @@
               {% endif %}
             <hr>
             <div class ="row">
-            <p> {{ item.counter }} times clicked </p>
-            <p style="text-align: right;"> {{ item.created_at|timesince }} ago </p>
+            <p> {{ item.counter }} Times Clicked </p>
+            {% if item.last_clicked %}
+                 <p>   {{ item.last_clicked|timesince }} ago Clicked</p>
+                {% else %}
+                 <p>   Not clicked</p>
+                {% endif %}
+                
+                 {% if item.updated_at %}
+                 <p >{{ item.updated_at|timesince }} ago ustomize</p>
+                {% else %}
+                 <p>   Not Customize</p>
+                {% endif %}
+           
+
+            <p style="text-align: right;"> {{ item.created_at|timesince }} ago Created</p>
 </div>
     </div>
     {% empty%}

@@ -15,5 +15,7 @@ urlpatterns = [
     path('qr_code/<int:u_id>/', views.qr_code_view, name='qr_code'),
     path('expire_url/<int:u_id>/', views.expire_url, name='expire_url'),
 
+    path("profile/<int:u_id>/", views.profile, name='profile'),
+
    
 ]

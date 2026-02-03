@@ -1,0 +1,59 @@
+{% extends 'main.html'%}
+
+{% block title %} Home Page {% endblock %}
+
+{% block content %}
+<center>
+<form class="form-control"style="margin-top:25px; margin-down:25px;">
+     <input class="form-control " name='q' type="search" placeholder="Search Short URL " />
+        <button class="btn-c" type="submit">Search</button>
+      </form>
+      <br>
+      <h4>Total {{total}} URL are available</h4>
+    </center>
+   
+
+          {% for item in url %}
+
+          <div class="container">
+            <center>
+    
+        <h3> {{ item.original_url }}</h3>
+        {% if item.is_expired %}
+            <p style="color: red;"> Expired URL</p>
+            {% else %}
+       <h4>Short URLs :<a href="http://127.0.0.1:8000/{{ item.short_url }}" target="_blank">
+                127.0.0.1:8000/{{ item.short_url }}
+            </a></h4></center>
+          
+
+            <hr>
+            <div class="row">
+            
+            <a href="{% url 'edit_url' item.id %}"><button class ="btn" >Customize Short URL</button></a>
+            
+            <a href="{% url 'expire_url' item.id %}"><button class ="btn" >Set Expiration Date</button></a>
+            <a href="{% url 'qr_code' item.id %}"><button class ="btn" >QR Code</button> </a>
+           <a href="{% url 'delete_url' item.id %}"> <button class ="btn" >Delete</button></a>
+            </div>
+              {% endif %}
+            <hr>
+            <div class ="row">
+            <p> {{ item.counter }} times clicked </p>
+            {% if item.last_clicked %}
+                 <p>   {{ item.last_clicked|timesince }} ago clicked</p>
+                {% else %}
+                 <p>   Not clicked</p>
+                {% endif %}
+                
+            <p >{{ item.updated_at|timesince }} ago customize</p>
+
+            <p style="text-align: right;"> {{ item.created_at|timesince }} ago created</p>
+</div>
+    </div>
+    {% empty%}
+    <h1 style="text-align:center">User have no Url</h1>
+          {% endfor %}
+
+{% endblock %}
+   

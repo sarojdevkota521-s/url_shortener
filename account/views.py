@@ -31,6 +31,10 @@ def register_view(request):
         if User.objects.filter(username=username).exists():
             register_error = True
             messages.error(request, "Username already exists")
+        if not email.endswith('@gmail.com'):
+            register_error = True
+            messages.error(request, "invalid email address")
+
 
         if User.objects.filter(email=email).exists():
             register_error = True
@@ -118,7 +122,7 @@ def redirect_url(request, short_url):
     try:
         url_obj= ShortenedURL.objects.get(short_url=short_url)
         url_obj.counter+= 1
-       
+        url_obj.last_clicked = timezone.now()
         url_obj.save()
         return redirect(url_obj.original_url)
        
@@ -148,6 +152,7 @@ def edit_url(request, u_id):
     if request.method == "POST":
         form = EditShortURLForm(request.POST, instance=url)
         if form.is_valid():
+            form.updated_at=timezone.now()
             form.save()
             messages.success(request, " Short URL updated successfully ")
             return redirect('shorten_url')
@@ -184,3 +189,10 @@ def expire_url(request, u_id):
         form = ExpireURLForm(instance=url)
 
     return render(request, 'expire.html', {'form': form, 'url': url})
+
+from django.db.models import Q
+def profile(request, u_id):
+    q=request.GET.get('q') if request.GET.get('q')!=None else ''
+    user_urls = ShortenedURL.objects.filter(Q(short_url__icontains=q), user=request.user).order_by('-created_at')
+    total=user_urls.count()
+    return render(request,"profile.html",{"url":user_urls,"total":total})

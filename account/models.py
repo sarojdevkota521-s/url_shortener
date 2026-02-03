@@ -13,6 +13,7 @@ class ShortenedURL(models.Model):
     counter = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    last_clicked=models.DateTimeField(blank=True, null=True)
     expires_at = models.DateTimeField(blank=True, null=True)
 
 
