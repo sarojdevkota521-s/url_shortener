@@ -118,8 +118,10 @@ def redirect_url(request, short_url):
     try:
         url_obj= ShortenedURL.objects.get(short_url=short_url)
         url_obj.counter+= 1
+       
         url_obj.save()
         return redirect(url_obj.original_url)
+       
     except ShortenedURL.DoesNotExist:
         return render(request, 'pagenotfound.html', status=404)
     

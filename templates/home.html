@@ -3,10 +3,14 @@
 {% block title %} Home Page {% endblock %}
 
 {% block content %}
+<div class="home-container">
+    <h1>Welcome </h1>
+    <p>Turn long links into short, shareable URLs in seconds.</p>
 
-<h1>Welcome to the Home Page</h1>
-<button>
-<a href="{% url 'shorten_url' %}">Shorten a URL</a></button>
+    <a href="{% url 'shorten_url' %}" class="btn-m">
+        Shorten a URL
+    </a>
+</div>
 
 {% endblock %}
    

@@ -8,7 +8,7 @@
 <form method="post" action="{% url 'edit_url' url.id %}">
     {% csrf_token %}    
     {{ form.as_p }}
-    <button type="submit">Update Short URL</button>
+    <button class="btn-m" type="submit">Update Short URL</button>
 
 
 

@@ -7,7 +7,7 @@
 <form method="post" action="{% url 'expire_url' url.id %}" style="margin-bottom: 20px;">
     {% csrf_token %}    
     {{ form.as_p }}
-    <button type="submit">Set Expiration</button>
+    <button class="btn-m" type="submit">Set Expiration</button>
 </form>
 
 {% endblock%}

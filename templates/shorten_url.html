@@ -2,41 +2,51 @@
 {% block title %}Shorten URL{% endblock %}
 
     {% block content %}
-
+<center>
 <h2>Shorten URL Page</h2>
-<form method="post" action="{% url 'shorten_url' %}" style="margin-bottom: 20px;">
+<form method="post" action="{% url 'shorten_url' %}" >
     {% csrf_token %}    
     {{ form.as_p }}
-    <button type="submit">Shorten URL</button>
+    <button class="btn-m" type="submit">Shorten URL</button>
 </form>
-
+</center>
 <hr>
-<center>
+  
           {% for item in obj %}
           <div class="container">
+            <center>
     
-        <h3> your original URL: {{ item.original_url }}</h3>
+        <h3> {{ item.original_url }}</h3>
         {% if item.is_expired %}
-            <p style="color: red;">Status: Expired</p>
+            <p style="color: red;"> Expired URL</p>
             {% else %}
-       <h3>Your Shortened URLs:<a href="http://127.0.0.1:8000/{{ item.short_url }}" target="_blank">
+       <h4>Short URLs :<a href="http://127.0.0.1:8000/{{ item.short_url }}" target="_blank">
                 127.0.0.1:8000/{{ item.short_url }}
-            </a></h3>
-            {% endif %}
+            </a></h4></center>
+          
 
             <hr>
-            <p> {{ item.counter }} times clicked </p>
-            <p>Created at: {{ item.created_at|timesince }} ago </p>
-            <button><a href="{% url 'delete_url' item.id %}">Delete</a></button>
-            <button><a href="{% url 'edit_url' item.id %}">Customize Short URL</a></button>
-            <a href="{% url 'qr_code' item.id %}"><h4>QR Code</h4> </a>
-            <button><a href="{% url 'expire_url' item.id %}">Set Expiration Date</a></button>
+            <div class="row">
             
-
+            <a href="{% url 'edit_url' item.id %}"><button class ="btn" >Customize Short URL</button></a>
+            
+            <a href="{% url 'expire_url' item.id %}"><button class ="btn" >Set Expiration Date</button></a>
+            <a href="{% url 'qr_code' item.id %}"><button class ="btn" >QR Code</button> </a>
+           <a href="{% url 'delete_url' item.id %}"> <button class ="btn" >Delete</button></a>
+            </div>
+              {% endif %}
+            <hr>
+            <div class ="row">
+            <p> {{ item.counter }} times clicked </p>
+            <p style="text-align: right;"> {{ item.created_at|timesince }} ago </p>
+</div>
     </div>
-    {% endfor %}
+    {% empty%}
+    <h1 style="text-align:center">User have no Url</h1>
+          {% endfor %}
 
-</center>
+
+
     {% endblock %}
  
     

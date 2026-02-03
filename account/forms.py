@@ -30,7 +30,12 @@ class ExpireURLForm(forms.ModelForm):
         choices=[
             (0, 'Never'),
             (1, '1 Hour'),
+            (2, '2 Hours'),
+            (6, '6 Hours'),
+            (12, '12 Hours'),
             (24, '1 Day'),
+            (48, '2 Days'),
+            (72, '3 Days'),
             (168, '1 Week'),
         ],
         label="Select Expiration Time"
