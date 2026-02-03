@@ -4,14 +4,17 @@ from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import ShortenedURL
-from .forms import URLShortenForm, EditShortURLForm
+from .forms import URLShortenForm, EditShortURLForm, ExpireURLForm
 import string
 import random
+# from django.core.paginator import Paginator
+from django.utils import timezone
+from datetime import timedelta
 
 
 
 # Create your views here.
-# @login_required(login_url='login')
+
 def home(request):
     return render(request, 'home.html')
 
@@ -82,7 +85,7 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def shorten_url(request):
-    form = URLShortenForm() # Initialize form for GET requests
+    form = URLShortenForm() 
     
     if request.method == 'POST':
         form = URLShortenForm(request.POST) 
@@ -103,9 +106,11 @@ def shorten_url(request):
             messages.success(request," URL shortened successfully!")
             return redirect('shorten_url') 
     user_urls = ShortenedURL.objects.filter(user=request.user).order_by('-created_at')
+    # paginator = Paginator(user_urls, 3)
     context = {
         'form': form,
-        'obj': user_urls
+        'obj': user_urls,
+        # 'paginator': paginator
     }
     return render(request, 'shorten_url.html', context)
 
@@ -156,3 +161,24 @@ def qr_code_view(request, u_id):
     }
     return render(request, 'qr_code.html', context)
 
+@login_required(login_url='login')
+def expire_url(request, u_id):
+    url = get_object_or_404(ShortenedURL, id=u_id, user=request.user)
+    
+    if request.method == "POST":
+        form = ExpireURLForm(request.POST, instance=url)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            hours = int(form.cleaned_data['expires_at'])
+            if hours > 0:
+                obj.expires_at = timezone.now() + timedelta(hours=hours)
+            else:
+                obj.expires_at = None
+            
+            obj.save()
+            messages.success(request, "Expiration set successfully!")
+            return redirect('shorten_url')
+    else:
+        form = ExpireURLForm(instance=url)
+
+    return render(request, 'expire.html', {'form': form, 'url': url})

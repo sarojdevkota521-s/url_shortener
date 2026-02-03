@@ -1,0 +1,13 @@
+{% extends 'main.html' %}
+{% block title %}Shorten URL{% endblock %}
+
+    {% block content %}
+
+<h2>Set Expiration Date</h2>
+<form method="post" action="{% url 'expire_url' url.id %}" style="margin-bottom: 20px;">
+    {% csrf_token %}    
+    {{ form.as_p }}
+    <button type="submit">Set Expiration</button>
+</form>
+
+{% endblock%}

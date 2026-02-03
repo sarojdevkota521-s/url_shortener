@@ -1,6 +1,7 @@
 {% extends 'main.html'%}
 {% block title %} Register{% endblock %}
     {% block content %}
+    <div class="container">
         <h2>Register Page</h2>
         <form method="post" action="{% url 'register' %}">
             {% csrf_token %}
@@ -20,4 +21,5 @@
             <input type="submit" value="Register">
             <a href="{% url 'login' %}">Already registered? Login</a>
         </form>
+    </div>
     {% endblock %}

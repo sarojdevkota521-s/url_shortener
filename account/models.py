@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import qrcode
 import io
 import base64
+from django.utils import timezone
 
 # Create your models here.
 class ShortenedURL(models.Model):
@@ -11,6 +12,8 @@ class ShortenedURL(models.Model):
     short_url = models.CharField(max_length=20, unique=True)
     counter = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    expires_at = models.DateTimeField(blank=True, null=True)
 
 
     def __str__(self):
@@ -24,6 +27,11 @@ class ShortenedURL(models.Model):
         img.save(buffer, format='PNG')
         img_str=base64.b64encode(buffer.getvalue()).decode()
         return img_str
+    
+    def is_expired(self):
+        if self.expires_at and timezone.now() > self.expires_at:
+            return True
+        return False
     
     
     

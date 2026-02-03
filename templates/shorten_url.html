@@ -13,19 +13,24 @@
 <hr>
 <center>
           {% for item in obj %}
-          <div style="border:2px solid black; width:50%; padding:10px; border-radius: 10px; margin:10px;">
+          <div class="container">
     
         <h3> your original URL: {{ item.original_url }}</h3>
+        {% if item.is_expired %}
+            <p style="color: red;">Status: Expired</p>
+            {% else %}
        <h3>Your Shortened URLs:<a href="http://127.0.0.1:8000/{{ item.short_url }}" target="_blank">
                 127.0.0.1:8000/{{ item.short_url }}
             </a></h3>
+            {% endif %}
 
             <hr>
-            <p>Click Count: {{ item.counter }} </p>
+            <p> {{ item.counter }} times clicked </p>
             <p>Created at: {{ item.created_at|timesince }} ago </p>
             <button><a href="{% url 'delete_url' item.id %}">Delete</a></button>
             <button><a href="{% url 'edit_url' item.id %}">Customize Short URL</a></button>
             <a href="{% url 'qr_code' item.id %}"><h4>QR Code</h4> </a>
+            <button><a href="{% url 'expire_url' item.id %}">Set Expiration Date</a></button>
             
 
     </div>

@@ -1,8 +1,12 @@
+{% extends 'main.html' %}
+{% block title %} QR Code {% endblock %}
+    {% block content %}
+<div class="container">
 
-<div style="text-align: center; margin-top: 50px;">
-    <h2>QR Code for: {{ short_url }}</h2>
-
-    <button style="  border: none; "><a href="{% url 'shorten_url' %}" style="text-decoration: none;">x</a></button>
+    <h2>QR Code of: {{ short_url }}</h2>
+    <button style="  border: none; display: block; margin-left: auto; margin-right: 0; background-color: #f0f0f0; padding: 5px 10px; cursor: pointer;"><a href="{% url 'shorten_url' %}" style="text-decoration: none;">x</a></button>
+    
     <hr>
-<img src="data:image/png;base64,{{ qr_code_data }}" alt="QR Code">
+<img  src="data:image/png;base64,{{ qr_code_data }}" alt="QR Code" class="qr-code"/>
 </div>
+    {% endblock %}
